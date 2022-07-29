@@ -1,0 +1,34 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.2'
+	id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+	id 'java'
+}
+
+group = 'com.example'
+// 첫번째자리 : 메이저 업데이트, 두번째자리 : 마이너 업데이트, 세번째 자리 : 픽스버전(오탈자,이미지변경)
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+//디펜더시를 다운받는 위치
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	//룸북추가
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	//implementation
+	//타임리프 springboot(백엔드)와 html을 유연하게 연결해주는 템플릿
+	//* 종속관계
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	//starter web에 tomcat이 포함되어 있음
+	//tomcat spring 프로젝트를 웹하고 연결해주는 도구
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+//테스트 모듈에 관한 정보
+tasks.named('test') {
+	useJUnitPlatform()
+}
