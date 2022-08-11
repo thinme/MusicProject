@@ -1,40 +1,87 @@
 package com.example.musicproject.controller;
+//외장 라이브러리 호출(import), gradle로 설치한 라이브러리
 
+import com.example.musicproject.service.BoardService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.ArrayList;
+//내장 라이브러리 호출
+
 import java.util.Date;
 import java.util.List;
-import com.example.musicproject.model.Board;
+import com.example.musicproject.domain.Board;
+
 
 @Controller
 public class BoardController {
 
-        @RequestMapping("/getBoardList")
-        public String getBoardList(Model model){
-            //List 타입으로 Board객체를 넣는 boardList변수명 선언
-            // =(대입연산자) heap메모리에 ArrayList타입으로 할당
-            //List는 ArrayList의 부모클래스
-            List<Board> boardList = new ArrayList<Board>();
-            for(int i=1; i<=10; i++){
-                //Board 클래스로 board인스턴스 생성
-                Board board =new Board();
-                //롬북으로 자동생성된 seter메서드로 데이터입력
-                board.setSeq(new Long(i));
-                board.setTitle("게시판 프로그램 테스트");
-                board.setWriter("도우너");
-                board.setContent("게시판 프로그램 테스트입니다");
-                board.setCreateDate(new Date());
-                board.setCnt(0L);
-                //boardList배열에 board객체 넣기(for문 10번도니까 board객체 10개넣기)
-                boardList.add(board);
-            }
-            model.addAttribute("boardList", boardList);
-            //viewResolver
-            //retrun getBoardList라는 문자열로 templates에 있는 같은 이름에 html파일을 찾는다
-            return "getBoardList";
-        }
+
+    @Autowired
+    private BoardService boardService;
+
+    @GetMapping("/getBoardList")
+    public String getBoardList(Model model){
+        List<Board> boardList= boardService.getBoardList();
+        model.addAttribute("boardList", boardList);
+       return"getBoardList";
+    }
+
+    @GetMapping("/getBoard")
+    public String getBoard(Board board, Model model) {
+        model.addAttribute("board", boardService.getBoard(board));
+        return "getBoard";
+    }
+
+     //@GetMapping 또는 @PostMapping은 @RequestMapping의 자식 클래스이다
+     //@RequestMapping의 기능을 모두 쓸수있다.
+     // 자식클래스 어노테이션이 아닌 부모클래스 어노테이션을 쓰는 이유는 기능의 한정을 통해서
+     // 서버의 리소스를 감소및 보안을 위해서 한정된 기능을 쓰는것이다
+     @GetMapping("insertBoard")
+     public String insertBoard(){return "insertBoard";}
+
+    //[클라이언트]html form태그의 method속성값인 post를 인식하여 아래의
+    //@PostMapping에 연결
+    @PostMapping("insertBoard")
+    //클라이언트에서 board객체를 받아서 매개변수사용
+    //[1]BoardService의 insertBoard메서드 실행
+    //[2]BoardRepository(CrudRepository).save(board)를 통해서(JPA 번역)
+    //DB의 데이터 모두 불러오기(테이블전체)
+    //insertBoard라는 메서드에 board객체 인자값으로 넣기
+    public String insertBoard(
+            Board board
+
+            ) {
+        board.setCreateDate(new Date());
+        boardService.insertBoard(board);
+
+         return "redirect:getBoardList";
+    }
+
+    @GetMapping("/updateBoard")
+    public String updateBoard(Board board){
+        boardService.updateBoard(board);
+        return "redirect:getBoard?seq="+board.getSeq();
+    }
+    @PostMapping("/updateBoard")
+    public String updateBoardView(Board board){
+        boardService.updateBoard(board);
+        return "redirect:getBoard?seq="+board.getSeq();
+    }
+    @GetMapping("/deleteBoard")
+    public String deleteBoard(Board board){
+        boardService.deleteBoard(board);
+        return "redirect:getBoardList";
+    }
+
+
+         /*
+         * Board domain boardContoroller
+         * @return String HTML파일과 연결(viewResolver)
+         * @author  작성자 이름
+         * @version 날짜+버전번호
+          */
 }
 

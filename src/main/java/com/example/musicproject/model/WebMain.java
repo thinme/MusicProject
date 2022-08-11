@@ -8,5 +8,5 @@ import lombok.ToString;
 @Setter
 @ToString
 public class WebMain {
-    private final String WebName="WebName";
+    private final String WebName = "WebName";
 }

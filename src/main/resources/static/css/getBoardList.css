@@ -1,0 +1,33 @@
+*{
+    margin: 0;
+    padding: 0;
+
+}
+.mainimg{
+    position: fixed;
+    width: 100%;
+    min-width: 1000px;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+}
+.logoimg{
+    position: fixed;
+    width: 30px;
+    height: 15px;
+}
+.left{
+    float: left;
+    margin-left: 20px;
+    padding-right: 60%;
+    padding-bottom: 30px;
+}
+.board{
+
+    border: 1px solid;
+    padding: 0;
+    border-spacing: 0;
+    width: 90%;
+    margin-left: 60px;
+    margin-right: 20px;
+}
