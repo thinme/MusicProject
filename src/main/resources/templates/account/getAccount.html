@@ -7,7 +7,7 @@
 <body th:align="center">
 <h1>회원정보 상세</h1>
 <!--회원정보 같은 민감데이터는 가능한 암호화와 숨김코드로 작성필요-->
-<form th:action="@{accoun/updateAccount}" method="post">
+<form th:action="@{account/updateAccount}" method="post">
     <input name="seq" type="hidden" th:value="${member.seq}">
     <table th:align="center" border="1" th:cellpadding="0" th:cellspacing="0">
         <tr>
@@ -21,11 +21,12 @@
         </tr>
         <tr>
             <td bgcolor="#deb887" th:text="email"></td>
-            <td th:text="${member.emil}"></td>
+            <td><input name="email" type="text" th:text="${member.email}"></td>
         </tr>
         <tr>
             <td colspan="2" align="center">
                 <input type="submit" value="회원정보수정">
+                <a th:href="@{/getAccountList}"></a>
             </td>
         </tr>
 
