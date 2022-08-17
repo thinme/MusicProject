@@ -50,31 +50,30 @@ public class BoardController {
     //[2]BoardRepository(CrudRepository).save(board)를 통해서(JPA 번역)
     //DB의 데이터 모두 불러오기(테이블전체)
     //insertBoard라는 메서드에 board객체 인자값으로 넣기
-    public String insertBoard(
-            Board board
-
-            ) {
+    public String insertBoard(Board board) {
         board.setCreateDate(new Date());
         boardService.insertBoard(board);
 
          return "redirect:getBoardList";
     }
+    @PostMapping ("/updateBoard")
+    public String updateBoard(Board board) {
+        boardService.updateBoard(board);
+        return "redirect:getBoard?seq="+board.getSeq();
+    }
 
     @GetMapping("/updateBoard")
-    public String updateBoard(Board board){
-        boardService.updateBoard(board);
-        return "redirect:getBoard?seq="+board.getSeq();
+    public String updateBoardView(Board board, Model model) {
+        model.addAttribute("board", boardService.getBoard(board));
+        return "insertBoard";
     }
-    @PostMapping("/updateBoard")
-    public String updateBoardView(Board board){
-        boardService.updateBoard(board);
-        return "redirect:getBoard?seq="+board.getSeq();
-    }
-    @GetMapping("/deleteBoard")
-    public String deleteBoard(Board board){
+
+    @PostMapping("/deleteBoard")
+    public String deleteBoard(Board board) {
         boardService.deleteBoard(board);
         return "redirect:getBoardList";
     }
+
 
 
          /*

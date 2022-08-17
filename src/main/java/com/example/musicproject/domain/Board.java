@@ -34,7 +34,7 @@ public class Board {
     @Column(nullable = false)
     @ColumnDefault("no content")
     private  String content;
-    private  String content_20;
+
 
     @Temporal(TemporalType.DATE)
     private  Date createDate;

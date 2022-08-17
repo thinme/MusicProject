@@ -58,6 +58,11 @@ dependencies {
 	implementation 'com.oracle.database.security:oraclepki'
 	implementation 'com.oracle.database.security:osdt_core'
 	implementation 'com.oracle.database.security:osdt_cert'
+
+	implementation ('com.oracle.ojdbc:ojdbc8:19.3.0.0'){
+		exclude group: 'com.oracle.ojdbc', module: 'simplefan'
+		exclude group: 'com.oracle.ojdbc', module: 'ons'
+	}
 }
 
 //테스트 모듈에 관한 정보
